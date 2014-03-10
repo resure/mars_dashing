@@ -37,14 +37,14 @@ namespace :deploy do
       on roles(:app) do
         execute :rm, "#{current_path}/.env"
         execute :ln, "-s #{shared_path}/env #{current_path}/.env"
-        execute :sudo, "foreman export -f #{current_path}/Procfile --app #{application} --user #{user} upstart /etc/init"
+        execute :sudo, "foreman export -d #{current_path} --app #{application} --user #{user} upstart /etc/init"
       end
     end
   end
 
   task :push do
     invoke 'deploy'
-    invoke 'env:export'
+    invoke 'deploy:env:export'
     invoke 'deploy:restart'
   end
 
