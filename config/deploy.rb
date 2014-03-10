@@ -23,7 +23,7 @@ namespace :deploy do
   namespace :env do
     task :copy do
       on roles(:app) do
-        execute :cp, "#{current_path}/.env #{shared_path}/.env"
+        execute :cp, "#{current_path}/.env #{shared_path}/env"
       end
     end
 
@@ -35,7 +35,8 @@ namespace :deploy do
 
     task :export do
       on roles(:app) do
-        execute :ln, "-nfs #{shared_path}/env #{current_path}/.env"
+        execute :rm, "#{current_path}/.env"
+        execute :ln, "-s #{shared_path}/env #{current_path}/.env"
         execute :sudo, "foreman export -f #{current_path}/Procfile --app #{application} --user #{user} upstart /etc/init"
       end
     end
