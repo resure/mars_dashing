@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sudo foreman export -f Procfile --app $APPNAME --user $USERNAME upstart /etc/init
+
